@@ -1,0 +1,23 @@
+{
+  "_tag": {
+    "type": "EditorGenSymbolSetting"
+  },
+  "_entityId": "ilPzkGQx",
+  "GenSymbol": {
+    "Components": {},
+    "Events": {
+      "signal_70816367": {
+        "label": "laydulieu",
+        "params": {}
+      },
+      "signal_60586604": {
+        "label": "UpdateHighScoreClient",
+        "params": {}
+      }
+    },
+    "Graphs": {},
+    "Enums": {}
+  },
+  "children": []
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

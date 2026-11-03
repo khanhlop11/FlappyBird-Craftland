@@ -1,0 +1,53 @@
+{
+  "_entityName": "",
+  "_tag": {
+    "type": "ECATupleSettingAsset"
+  },
+  "_entityId": "K71MN9ZE",
+  "tupleDefines": {
+    "q4WuEde7_Value": {
+      "label": "HighScoreBoardRanking_Value",
+      "name": "q4WuEde7_Value",
+      "info": [
+        {
+          "label": "Value",
+          "name": "Value",
+          "type": "Int",
+          "index": 0
+        },
+        {
+          "label": "Score",
+          "name": "Score",
+          "type": "Int",
+          "index": 1
+        }
+      ]
+    },
+    "q4WuEde7": {
+      "label": "HighScoreBoardRanking",
+      "name": "q4WuEde7",
+      "info": [
+        {
+          "label": "Rank",
+          "name": "Rank",
+          "type": "Int",
+          "index": 0
+        },
+        {
+          "label": "Key",
+          "name": "Key",
+          "type": "String",
+          "index": 1
+        },
+        {
+          "label": "Value",
+          "name": "Value",
+          "type": "q4WuEde7_Value",
+          "index": 2
+        }
+      ]
+    }
+  },
+  "children": []
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

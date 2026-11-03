@@ -1,0 +1,42 @@
+import "StdLibrary.fcc" as StdLib
+import "Player.fcc" as Player
+import "Hud.fcc" as Hud
+import "List.fcc" as List
+import "EditorGenLib.fcc" as EditorGenLib
+import "Database.fcc" as Database
+
+
+[platform_server]
+graph ServerData {
+    highScore int = 0 
+    event OnPlayerJoin(user entity<Player>) {
+    //     // DispatchEventToEntity(UpdateHighScoreClient, globalEntity, PlatformType.Client, List<int>{highScore})
+    //     // Dùng trực tiếp biến 'user' thay vì GetAllPlayers()[0] để đảm bảo chính xác
+        ReadFromLeaderboard("HighScoreBoardRanking", user<Player>.UserUID, out var highScoreCurrent, "", out var trash)
+    //     // DispatchEventToEntity(updateHighScore, globalEntity, PlatformType.Both, List<int>{highScoreCurrent[2] as int })
+    //     // DispatchEventToEntity(updateHighScore, globalEntity, PlatformType.Both, List<object>{999} )
+        if highScoreCurrent == nil {
+            LogInfo("khởi tạo csdl")
+            WriteToLeaderboard("HighScoreBoardRanking", user<Player>.UserUID, 0, "", out var trash2)
+            highScore = 0
+        } else {
+            // Chỉ ép kiểu khi dữ liệu không phải nil
+            highScore = highScoreCurrent[2] as int 
+        }
+        
+    }
+    event laydulieu(Score int) {
+        if Score > highScore {
+            highScore = Score
+            var allPlayer = GetAllPlayers()
+            var p = allPlayer[0]
+            WriteToLeaderboard("HighScoreBoardRanking",p<Player>.UserUID, highScore, "", out var trash2)
+            LogInfo("đã ghi dữ liệu")
+            DispatchEventToEntity(UpdateHighScoreClient, globalEntity, PlatformType.Both, List<int>{highScore})
+        } else {
+            // Cập nhật lại cho client kể cả khi không phá kỷ lục (để đảm bảo đồng bộ)
+            DispatchEventToEntity(UpdateHighScoreClient, globalEntity, PlatformType.Both, List<int>{highScore})
+        }
+    }
+    
+}

@@ -1,0 +1,48 @@
+{
+  "_tag": {
+    "type": "ecaEventDesc"
+  },
+  "_entityId": "YNTKwtqc",
+  "customEventDefines": {
+    "signal_70816367": {
+      "name": "GetData",
+      "eventType": 0,
+      "enitityType": "Component",
+      "typeID": 100002,
+      "props": [
+        {
+          "name": "Score",
+          "value": "Int",
+          "key": 1
+        }
+      ],
+      "propCount": 1,
+      "apiTargetV2": "both",
+      "version": 45,
+      "key": "signal_70816367"
+    },
+    "signal_60586604": {
+      "name": "updateHighScore",
+      "eventType": 0,
+      "enitityType": "Component",
+      "typeID": 100000,
+      "props": [
+        {
+          "name": "highScoreInBoard",
+          "value": "Int",
+          "key": 1
+        }
+      ],
+      "propCount": 1,
+      "apiTargetV2": "both",
+      "version": 45,
+      "key": "signal_60586604"
+    }
+  },
+  "customName": {
+    "GetData": "signal_70816367",
+    "updateHighScore": "signal_60586604"
+  },
+  "children": []
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

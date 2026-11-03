@@ -1,0 +1,259 @@
+import "StdLibrary.fcc" as StdLib
+import "Hud.fcc" as Hud
+import "Math.fcc" as Math
+import "Player.fcc" as Player
+import "List.fcc" as List
+import "./PipeSystem.fcg" as PipeSys
+import "EditorGenLib.fcc" as EditorGenLib
+
+
+[platform_client]
+static graph BirdPhysics {
+    // --- CẤU HÌNH ---
+    listNumber List<object> = {0}
+    gravity float = -0.8
+    jumpForce float = 12.0
+    BirdSpeedMultiplier float = 0.8// Hệ số quy chiếu tốc độ chim (1.0 = chuẩn, <1 = chậm, >1 = nhanh)
+    
+    // --- ANIMATION ---
+    BirdFrame1 entity = nil
+    BirdFrame2 entity = nil
+    BirdFrame3 entity = nil
+    AnimTimer float = 0.0
+    FlapTimer float = 0.0 // Biến đếm thời gian duy trì trạng thái vỗ cánh
+    
+    // --- THAM CHIẾU UI ---
+    BirdWidget entity = nil
+    ScoreText entity = nil
+    GameOverScoreText entity = nil // Điểm hiện tại trên bảng Game Over
+    GameOverHighScoreText entity = nil // highscore trên bảng over 
+    TapToJumpBtn entity = nil
+    TutorialImg entity = nil
+    GameOverBoard entity = nil
+    
+    // --- TRẠNG THÁI ---
+    IsPlaying bool = false
+    IsGameOver bool = false
+    CurrentScore int = 0
+    GameSessionID int = 0 // ID để quản lý phiên chơi, chống lỗi lặp task
+    IsDeathPaused bool = false // Biến để dừng hình khi chết
+
+
+    
+    // --- VẬT LÝ ---
+    BirdY float = 0.0
+    Velocity float = 0.0
+    
+    // Đổi từ event thành func để GameManager gọi thủ công
+    func ManualUpdate() {
+        // Bỏ điều kiện "IsGameOver == true" để vật lý vẫn chạy khi chim chết (để rơi xuống đất)
+        if IsPlaying == false { return }
+        // Nếu đang trong trạng thái dừng hình khi chết (Freeze Frame) thì không tính toán gì cả
+        if IsDeathPaused { return }
+        
+        // 1. Vật lý
+        // Nhân trọng lực với hệ số để điều chỉnh tốc độ rơi
+        Velocity = Velocity + (gravity * BirdSpeedMultiplier)
+        // Nhân vận tốc cuối cùng với hệ số để điều chỉnh quãng đường di chuyển mỗi frame
+        BirdY = BirdY + (Velocity * BirdSpeedMultiplier)
+        
+        // --- XỬ LÝ ANIMATION (Ẩn/Hiện Frame) ---
+        if BirdFrame1 != nil && BirdFrame2 != nil && BirdFrame3 != nil {
+            // 1. Khi CHẾT -> Hiện Frame 3
+            if IsGameOver {
+                BirdFrame1<UIWidget>.IsVisible = false
+                BirdFrame2<UIWidget>.IsVisible = false
+                BirdFrame3<UIWidget>.IsVisible = true
+            
+            // 2. Khi đang trong trạng thái vỗ cánh (FlapTimer > 0)
+            } else if FlapTimer > 0.0 {
+                FlapTimer = FlapTimer - 1.0 // Giảm thời gian vỗ cánh dần
+                
+                BirdFrame3<UIWidget>.IsVisible = false
+                
+                AnimTimer = AnimTimer + 1.0
+                // Đổi hình mỗi 5 frame (tốc độ vỗ)
+                if AnimTimer >= 0.0 && AnimTimer < 5.0 {
+                    BirdFrame1<UIWidget>.IsVisible = true
+                    BirdFrame2<UIWidget>.IsVisible = false
+                } else {
+                    BirdFrame1<UIWidget>.IsVisible = false
+                    BirdFrame2<UIWidget>.IsVisible = true
+                }
+                if AnimTimer >= 10.0 { AnimTimer = 0.0 }
+            // 3. Khi RƠI (Velocity <= 0) -> Sải cánh (Hiện Frame 1)
+            }else {
+                // Reset timer để lần nhảy sau bắt đầu mượt hơn
+                AnimTimer = 0.0
+                BirdFrame1<UIWidget>.IsVisible = true
+                BirdFrame2<UIWidget>.IsVisible = false
+                BirdFrame3<UIWidget>.IsVisible = false
+            }
+        }
+        
+        // 2. Cập nhật hình ảnh
+        if BirdWidget != nil {
+            BirdWidget<UIWidget>.AnchorPosition = Vector3{0.0, BirdY, 0.0}
+            
+            // Xoay đầu chim
+            // Nếu đã chết và chạm đất, giữ nguyên góc -90 (cắm đầu xuống)
+            if IsGameOver && BirdY <= -310.0 {
+                BirdWidget<UIWidget>.Angle = -90.0
+            } else {
+                var angle = Math.Clamp(Velocity * 3.0, -90.0, 25.0)
+                BirdWidget<UIWidget>.Angle = angle as float 
+            }
+        }
+        
+        // 3. Chạm đất
+        if BirdY <= -310.0 {
+            BirdY = -310.0
+            // Nếu đã chết rồi mà chạm đất thì dừng hẳn lại
+            if IsGameOver {
+                Velocity = 0.0
+            } else {
+                EndGame()
+            }
+        }
+        // Chạm trần
+        if BirdY >= 350.0 {
+            BirdY = 350.0
+            Velocity = 0.0
+        }
+    }
+    
+    func DoJump() {
+        if IsGameOver { return }
+        if IsPlaying == false {
+            start StartGame()
+        }
+        
+        // >>> CHÈN ÂM THANH NHẢY TẠI ĐÂY <<<
+        // Ví dụ: Audio.Play(JumpSound)
+        PlayOneShotSoundV2(EResSound.QuackSound, 1.0)
+        
+        // Nhân lực nhảy với hệ số để điều chỉnh độ cao
+        Velocity = jumpForce * BirdSpeedMultiplier
+        // Đặt thời gian vỗ cánh là 40 frame (khoảng 4 nhịp vỗ) mỗi khi nhảy
+        FlapTimer = 40.0
+    }
+    
+    async func StartGame() {
+        IsPlaying = true
+        IsGameOver = false
+        // Nhân lực nhảy với hệ số cho lần nhảy đầu tiên
+        Velocity = jumpForce * BirdSpeedMultiplier
+        // Đặt thời gian vỗ cánh cho lần đầu
+        FlapTimer = 40.0
+        
+        // Không ẩn nút TapToJumpBtn vì nó chịu trách nhiệm nhận Input
+        // Thay vào đó, ẩn hình ảnh hướng dẫn (TutorialImg)
+        if TutorialImg != nil {
+            TutorialImg<UIWidget>.IsVisible = false
+        }
+        // Bắt đầu sinh ống nước với ID của phiên chơi hiện tại
+        start PipeSys.StartSpawning(GameSessionID)
+    }
+    
+    func EndGame() {
+        if IsGameOver { return }
+        IsGameOver = true
+        
+        listNumber[0] = CurrentScore
+        DispatchEventToEntity(laydulieu,globalEntity ,PlatformType.Server, listNumber)
+        // Vô hiệu hóa nút nhảy để không chặn click vào nút Replay
+        if TapToJumpBtn != nil {
+            TapToJumpBtn<UIWidget>.IsVisible = false
+        }
+        
+        // Bật chế độ dừng hình và chờ 500ms
+        IsDeathPaused = true
+        start DeathPauseDelay()
+        
+        // Bắt đầu đếm ngược 2 giây để hiện bảng
+        start ShowGameOverDelayed()
+    }
+    
+    async func DeathPauseDelay() {
+        PlayOneShotSoundV2(EResSound.BonkSound, 1.0)
+        PlayOneShotSoundV2(EResSound.BonkSound, 1.0)
+        PlayOneShotSoundV2(EResSound.BonkSound, 1.0)
+        StdLib.WaitForMillisecond(500)
+        IsDeathPaused = false
+    }
+    
+    async func ShowGameOverDelayed() {
+        StdLib.WaitForMillisecond(2000)
+        if GameOverBoard != nil {
+            GameOverBoard<UIWidget>.IsVisible = true
+        }
+    }
+    
+    func AddScore() {
+        if IsGameOver { return }
+        CurrentScore = CurrentScore + 1
+        if ScoreText != nil {
+            // Cập nhật điểm trong game
+            ScoreText<UIWidgetLabel>.Content = "" + CurrentScore
+        }
+        if GameOverScoreText != nil {
+            // Cập nhật điểm trên bảng Game Over (đang bị ẩn)
+            GameOverScoreText<UIWidgetLabel>.Content = "" + CurrentScore
+        }
+        
+        // --- TĂNG ĐỘ KHÓ (Cập nhật BirdSpeedMultiplier) ---
+        if CurrentScore <= 10 {
+            BirdSpeedMultiplier = 0.8 + (CurrentScore * 0.01)
+        } else {
+            BirdSpeedMultiplier = 0.9 + ((CurrentScore - 10) * 0.02)
+        }
+        
+        if BirdSpeedMultiplier > 1.1 { BirdSpeedMultiplier = 1.1 }
+        LogInfo(BirdSpeedMultiplier)
+    }
+
+
+    
+    func ResetGame() {
+        IsPlaying = false
+        IsGameOver = false
+        IsDeathPaused = false
+        // Tạo một ID mới cho phiên chơi này để vô hiệu hóa các task cũ
+        GameSessionID = GameSessionID + 1
+        
+        // Khởi tạo listNumber để chứa điểm
+        listNumber = List<object>{}
+        List.Append(listNumber, 0) // Thêm một phần tử mặc định để có thể gán listNumber[0]
+        
+        CurrentScore = 0
+        BirdY = 0.0
+        Velocity = 0.0
+        BirdSpeedMultiplier = 0.8
+        
+        if BirdWidget != nil {
+            BirdWidget<UIWidget>.AnchorPosition = Vector3{0.0, 0.0, 0.0}
+            BirdWidget<UIWidget>.Angle = 0.0
+        }
+        if ScoreText != nil {
+            ScoreText<UIWidgetLabel>.Content = "0"
+        }
+        if GameOverScoreText != nil {
+            GameOverScoreText<UIWidgetLabel>.Content = "0"
+        }
+        if TutorialImg != nil {
+            TutorialImg<UIWidget>.IsVisible = true
+        }
+        if GameOverBoard != nil {
+            GameOverBoard<UIWidget>.IsVisible = false
+        }
+        // Kích hoạt lại nút nhảy để có thể bắt đầu game mới
+        if TapToJumpBtn != nil {
+            TapToJumpBtn<UIWidget>.IsVisible = true
+        }
+        
+        PipeSys.ResetPipes()
+        
+    }
+    
+
+}

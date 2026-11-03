@@ -1,0 +1,27 @@
+{
+  "_entityName": "T_43_YU_WS_MODULE_MINIMAP",
+  "_tag": {
+    "type": "ff.MinimapV2"
+  },
+  "_entityId": "P43gNCa5",
+  "children": [],
+  "prefabVariant": null,
+  "activeValue": {
+    "selfValue": true,
+    "valueTag": "activeValue"
+  },
+  "unlockedValue": {
+    "selfValue": true,
+    "valueTag": "unlockedValue"
+  },
+  "editorLockValue": false,
+  "editorVisibleValue": true,
+  "modId": 34,
+  "hideMinimap": false,
+  "useCustomMinimap": false,
+  "enableDepthMap": false,
+  "modOpen": true,
+  "mapType": null,
+  "showSwitch": false
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

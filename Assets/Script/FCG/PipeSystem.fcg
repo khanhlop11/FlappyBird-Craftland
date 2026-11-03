@@ -1,0 +1,124 @@
+import "StdLibrary.fcc" as StdLib
+import "Hud.fcc" as Hud
+import "List.fcc" as List
+import "Math.fcc" as Math
+import "./BirdPhysics.fcg" as Bird
+
+
+[platform_client]
+static graph PipeSystem {
+    // --- CẤU HÌNH ---
+    pipeSpeed float = 5.0
+    poolSize int = 5
+    
+    // Kích thước va chạm (Bạn có thể chỉnh số này cho khớp với hình ảnh)
+    pipeWidth float = 65.0   //80
+    birdSize float = 68.0     //68
+    gapSize float = 175.0 // Khoảng cách giữa 2 ống(162)
+    
+    PipeTemplate entity = nil
+    
+    // Object Pool (Kho chứa ống)
+    Pool List<entity> = List<entity>{}
+    PoolState List<bool> = List<bool>{} // true = đang bay, false = rảnh
+    PoolScored List<bool> = List<bool>{}
+    
+    // Hàm khởi tạo kho chứa 5 cái ống
+    func InitPool(tmpl entity) {
+        PipeTemplate = tmpl
+        List.Clear(Pool)
+        List.Clear(PoolState)
+        List.Clear(PoolScored)
+        
+        for i = 0, poolSize, 1 {
+            // Clone (Tạo bản sao) từ mẫu
+            StdLib.Clone(out var p, PipeTemplate)
+            p<UIWidget>.IsVisible = false
+            List.Append(Pool, p)
+            List.Append(PoolState, false)
+            List.Append(PoolScored, false)
+        }
+    }
+    
+    // Đổi từ event thành func để GameManager gọi thủ công
+    func ManualUpdate() {
+        if Bird.IsGameOver == true { return }
+        
+        for i = 0, poolSize, 1 {
+            if PoolState[i] == true {
+                var pipe = Pool[i]
+                var pos = pipe<UIWidget>.AnchorPosition
+                
+                // Di chuyển (Dùng cách Vector3 của bạn)
+                // Nhân thêm Bird.BirdSpeedMultiplier để đồng bộ tốc độ với chim
+                pos = pos - Vector3{pipeSpeed * Bird.BirdSpeedMultiplier, 0.0, 0.0}
+                pipe<UIWidget>.AnchorPosition = pos
+                
+                // Thu hồi khi ra khỏi màn hình (X < -800)
+                if pos.X < -1200.0 {
+                    PoolState[i] = false
+                    pipe<UIWidget>.IsVisible = false
+                }
+                
+                // Tính điểm (Khi ống đi qua chim ở tọa độ -50)
+                if pos.X < -50.0 && PoolScored[i] == false {
+                    Bird.AddScore()
+                    PoolScored[i] = true
+                }
+                
+                // --- Xử lý Va chạm ---
+                var collisionX = (pipeWidth + birdSize) / 2.0
+                // Kiểm tra trục X (Ngang)
+                if pos.X < collisionX && pos.X > -collisionX {
+                    var birdY = Bird.BirdY
+                    var pipeY = pos.Y
+                    var halfGap = gapSize / 2.0
+                    var halfBird = birdSize / 2.0
+                    
+                    // Kiểm tra trục Y (Dọc): Nếu chim chạm mép trên hoặc mép dưới
+                    if (birdY + halfBird) > (pipeY + halfGap) || (birdY - halfBird) < (pipeY - halfGap) {
+                        Bird.EndGame()
+                    }
+                }
+            }
+        }
+    }
+    
+    // Hàm sinh ra ống mới mỗi 2 giây
+    async func StartSpawning(sessionID int) {
+        while (Bird.IsPlaying && !Bird.IsGameOver) {
+            // Kiểm tra nếu phiên chơi đã thay đổi (do bấm Replay), thì dừng task này lại
+            if sessionID != Bird.GameSessionID {
+                return
+            }
+            
+            for i = 0, poolSize, 1 {
+                if PoolState[i] == false {
+                    var pipe = Pool[i]
+                    var randY = Math.RandomFloat(-220.0, 220.0)
+                    // Xuất hiện ở bên phải (X = 800)
+                    pipe<UIWidget>.AnchorPosition = Vector3{1200.0, randY, 0.0}
+                    pipe<UIWidget>.IsVisible = true
+                    PoolState[i] = true
+                    PoolScored[i] = false
+                    break
+                }
+            }
+            // Quay lại thời gian chờ cố định để tránh lỗi ống dính nhau
+            StdLib.WaitForMillisecond(2000)
+        }
+    }
+    
+    func ResetPipes() {
+        for i = 0, poolSize, 1 {
+            PoolState[i] = false
+            if i < List.Length(Pool) {
+                 var p = Pool[i]
+                 if p != nil {
+                    p<UIWidget>.IsVisible = false
+                 }
+            }
+        }
+    }
+
+}

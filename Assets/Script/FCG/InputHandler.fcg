@@ -1,0 +1,13 @@
+import "StdLibrary.fcc" as StdLib
+import "Hud.fcc" as Hud
+import "Player.fcc" as Player
+import "./BirdPhysics.fcg" as Bird
+
+
+[platform_client]
+graph InputHandler {
+    event OnPressed(p entity<Player>) {
+        // Chỉ xử lý việc nhảy (khi game đang chơi hoặc chưa bắt đầu)
+        Bird.DoJump()
+    }
+}

@@ -1,0 +1,105 @@
+import "StdLibrary.fcc" as StdLib
+import "Hud.fcc" as Hud
+import "Player.fcc" as Player
+import "List.fcc" as List
+import "./BirdPhysics.fcg" as Bird
+import "./PipeSystem.fcg" as PipeSys
+import "EditorGenLib.fcc" as EditorGenLib
+
+
+
+
+
+// [platform_client]: Đánh dấu script này chỉ chạy trên máy người chơi (Client), không chạy trên Server.
+// Điều này giúp giảm tải cho Server và game phản hồi nhanh hơn (không bị delay mạng).
+[platform_client]
+graph GameManager {
+    GameOverHighScoreText entity = nil
+
+    event OnAwake() {
+        // 1. Lấy Local Player
+        var players = GetAllPlayers()
+        while (List.Length(players) == 0) {
+            WaitForNextFrame()
+            players = GetAllPlayers()
+        }
+        var p = players[0]
+        // 2. Tạo UI trực tiếp trên Client (Không cần Server)
+        Hud.CreateCustomUIClient(out var ui, EditorGenLib.EResUI.FlapUI)
+        if ui == nil { return }
+        
+        // --- BƯỚC 3: KẾT NỐI CODE VỚI CÁC THÀNH PHẦN UI (WIDGET) ---
+        // Chúng ta dùng Hud.GetWidgetByPath để tìm các nút/ảnh theo đường dẫn trong cây thư mục UI.
+        
+        // 1. Tìm hình con chim (BirdIcon)
+        // Đường dẫn: Root -> Trống -> BirdIcon
+        Bird.BirdWidget = Hud.GetWidgetByPath(p, ui, "Trống/BirdIcon")
+        
+        // 1.1 Tìm các khung hình Animation (Nằm TRONG BirdIcon như bạn mô tả)
+        // Đường dẫn: Root -> Trống -> BirdIcon -> BirdFrame1
+        Bird.BirdFrame1 = Hud.GetWidgetByPath(p, ui, "Trống/BirdIcon/BirdFrame1")
+        Bird.BirdFrame2 = Hud.GetWidgetByPath(p, ui, "Trống/BirdIcon/BirdFrame2")
+        Bird.BirdFrame3 = Hud.GetWidgetByPath(p, ui, "Trống/BirdIcon/BirdFrame3")
+        
+        // Mặc định ẩn hết, chỉ để lại Frame 1 (trạng thái rơi/đứng yên)
+        if Bird.BirdFrame1 != nil { Bird.BirdFrame1<UIWidget>.IsVisible = true }
+        if Bird.BirdFrame2 != nil { Bird.BirdFrame2<UIWidget>.IsVisible = false }
+        if Bird.BirdFrame3 != nil { Bird.BirdFrame3<UIWidget>.IsVisible = false }
+        
+        // 1.1 Tìm các khung hình Animation (Bạn cần tạo các Widget này trong UI)
+        // Giả sử bạn đặt chúng cùng cấp với BirdIcon hoặc bên trong
+        
+        // 2. Tìm Text hiển thị điểm số
+        // Đường dẫn cập nhật: Root -> Bố -> Hình ảnh -> Văn bản -> Văn bản (số 999)
+        Bird.ScoreText = Hud.GetWidgetByPath(p, ui, "/Bố/Hình ảnh/Hình ảnh/Văn bản")
+        // Tìm Text điểm trên bảng Game Over
+        Bird.GameOverScoreText = Hud.GetWidgetByPath(p, ui, "Nền/Trống (1)/Game Over/Điểm hiện tại/Văn bản")
+        
+        // 3. Tìm nút bấm để nhảy (TapToJump)
+        // Đường dẫn: Root -> Trống -> TapToJump
+        Bird.TapToJumpBtn = Hud.GetWidgetByPath(p, ui, "Trống/TapToJump")
+        
+        // 3.1 Tìm hình ảnh hướng dẫn bên trong nút nhảy (Intro)
+        // Đường dẫn: Root -> Trống -> TapToJump -> Intro
+        Bird.TutorialImg = Hud.GetWidgetByPath(p, ui, "Trống/TapToJump/Intro")
+        
+        // 4. Tìm bảng Game Over (để hiện ra khi thua)
+        // Đường dẫn: Root -> Nền -> Trống (1) -> Game Over
+        Bird.GameOverBoard = Hud.GetWidgetByPath(p, ui, "Nền/Trống (1)/Game Over")
+
+        // đường dẫn high score trong bảng over
+        Bird.GameOverHighScoreText = Hud.GetWidgetByPath(p, ui , "/Nền/Trống (1)/Game Over/HighScore/Văn bản")
+        GameOverHighScoreText = Bird.GameOverHighScoreText
+        
+        
+        // 5. Tìm Ống mẫu (Pipe) để làm khuôn đúc
+        // Đường dẫn cập nhật: Root -> Bố -> Hình ảnh -> Pipe
+        var pipeTmpl = Hud.GetWidgetByPath(p, ui, "Bố/Hình ảnh/Pipe")
+        if pipeTmpl != nil {
+
+            // Khởi tạo hồ chứa ống (Object Pool)
+            PipeSys.InitPool(pipeTmpl)
+            // Ẩn ống mẫu đi (chúng ta chỉ dùng các bản sao trong Pool)
+            pipeTmpl<UIWidget>.IsVisible = false
+        }
+        
+        // --- BƯỚC 4: KHỞI ĐỘNG GAME ---
+        // Đặt lại mọi chỉ số (điểm = 0, vị trí chim,...) về ban đầu.
+        Bird.ResetGame()
+    }
+    
+    // GameManager sẽ chịu trách nhiệm cập nhật hệ thống ống nước mỗi khung hình
+    event OnUpdate() {
+        PipeSys.ManualUpdate()
+        Bird.ManualUpdate()
+        
+    }
+    
+    // Lắng nghe sự kiện Server gửi điểm cao về
+    event UpdateHighScoreClient(highScoreInBoard int) {
+        if Bird.GameOverHighScoreText != nil {
+            Bird.GameOverHighScoreText<UIWidgetLabel>.Content = "" + highScoreInBoard
+        }
+    }
+    
+}

@@ -1,0 +1,25 @@
+{
+  "ecaVarMap": {
+    "rcuws6qfw2-mjoe32fl-8veyzk22zoa": [
+      "rcuws6qfw2-mjoe32fl-8veyzk22zoaf}TocA04t$@+xTm]AI2a",
+      "rcuws6qfw2-mjoe32fl-8veyzk22zoaS}}LhSBf~g7V3h#ZYns7"
+    ]
+  },
+  "varMap": {
+    "rcuws6qfw2-mjoe32fl-8veyzk22zoaf}TocA04t$@+xTm]AI2a": {
+      "id": "[_e7WZp;o.$Wo^ZV)subcP1]Player",
+      "name": "Player",
+      "blockId": "f}TocA04t$@+xTm]AI2a",
+      "ecaId": "rcuws6qfw2-mjoe32fl-8veyzk22zoa",
+      "type": "Player"
+    },
+    "rcuws6qfw2-mjoe32fl-8veyzk22zoaS}}LhSBf~g7V3h#ZYns7": {
+      "id": "[z~U}898PAj,!|UGB9sx!X]i",
+      "name": "i",
+      "blockId": "S}}LhSBf~g7V3h#ZYns7",
+      "ecaId": "rcuws6qfw2-mjoe32fl-8veyzk22zoa",
+      "type": "int"
+    }
+  }
+}
+//"{FE:{"v":"1.19.4689915","c":{"FF":5001},"s":100}

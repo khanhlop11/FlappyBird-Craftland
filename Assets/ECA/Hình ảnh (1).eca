@@ -1,0 +1,74 @@
+{
+  "blocks": {
+    "languageVersion": 0,
+    "blocks": [
+      {
+        "type": "e",
+        "id": "7:9k|G7Yva^Dr/3(t61M",
+        "x": -149,
+        "y": 72,
+        "extraState": {
+          "X": 14,
+          "L": [
+            1
+          ],
+          "O": [
+            "o"
+          ],
+          "T": "OnPlayerAdd",
+          "OT": null
+        },
+        "fields": {
+          "P1": {
+            "name": "Người chơi",
+            "type": "Player"
+          }
+        },
+        "next": {
+          "block": {
+            "type": "prs",
+            "id": "*}FS~d2C+=WDnaE#9pr1",
+            "fields": {
+              "P": "SpriteName:HudImageWidget",
+              "O": "UK"
+            },
+            "inputs": {
+              "H": {
+                "shadow": {
+                  "type": "tys",
+                  "id": "Yvbsmuw;*spCg|/Gnldv",
+                  "extraState": "Component"
+                },
+                "block": {
+                  "type": "ent",
+                  "id": "-6-Rh/`W*#Wk+h#Q0V2Z"
+                }
+              },
+              "V": {
+                "shadow": {
+                  "type": "tys",
+                  "id": "=g]R)x3Li392m(/eK6vA",
+                  "extraState": "SpriteID"
+                },
+                "block": {
+                  "type": "pin",
+                  "id": "~NX9*h@[ni@yoH3rIgd[",
+                  "fields": {
+                    "V": "nyzbc6bs9xf-mmapbeab-eialm5ycky9"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "graphData": {
+    "ownerType": "Entity",
+    "componentTypes": "HudImageWidget",
+    "isStatic": false,
+    "platform": 1
+  }
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

@@ -1,0 +1,23 @@
+{
+  "_entityName": "FE_53_ZCS_INGAMESOCIALSYS_SOCIALSYSTEM",
+  "_tag": {
+    "type": "ff.RoomSocial"
+  },
+  "_entityId": "VShltFRD",
+  "children": [],
+  "prefabVariant": null,
+  "activeValue": null,
+  "unlockedValue": null,
+  "editorLockValue": false,
+  "editorVisibleValue": true,
+  "modId": 50,
+  "enableFriendList": false,
+  "enableDialogBox": false,
+  "enablePlayerDetail": false,
+  "enablePersistentEntry": true,
+  "quickMsgMode": 0,
+  "emojiMode": 0,
+  "customQuickMsgs": [],
+  "customEmojiGroups": []
+}
+//"{FE:{"v":"1.19.4689915","c":{"FF":5001},"s":100}

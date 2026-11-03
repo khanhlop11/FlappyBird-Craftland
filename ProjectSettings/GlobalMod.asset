@@ -1,0 +1,95 @@
+{
+  "_tag": {
+    "type": "ff.global",
+    "resourceId": "Global"
+  },
+  "_entityId": "MVdesYs2",
+  "children": [],
+  "prefabVariant": null,
+  "activeValue": {
+    "selfValue": true,
+    "valueTag": "activeValue"
+  },
+  "unlockedValue": {
+    "selfValue": true,
+    "valueTag": "unlockedValue"
+  },
+  "editorLockValue": false,
+  "editorVisibleValue": true,
+  "modId": 39,
+  "DisableReconnect": false,
+  "RecommendStartGameNumber": 1,
+  "EnableHalfwayJoin": false,
+  "EnableHalfwayJoinEffectTime": true,
+  "HalfwayJoinEffectTime": 3574.19,
+  "HalfwayJoinNumber": 5,
+  "HalfwayJoinNumberLimit": true,
+  "EnableFreeQuit": true,
+  "PriorityFullStartMatch": false,
+  "AllowHangUpTime": 20,
+  "EnableRuntimeDynamicNavMesh": false,
+  "EnableHackCheck": false,
+  "modOpen": true,
+  "ecaProps": {
+    "Global": {
+      "PlayerRoundRankingRuleScoreType": [],
+      "PlayerRoundRankingRuleSortType": [],
+      "TeamRoundRankingRuleScoreType": [],
+      "TeamRoundRankingRuleSortType": [],
+      "MVPRuleScoreType": [],
+      "MVPRuleScoreWeight": [],
+      "RoundRankToScoreMap": [],
+      "ScoreTypeToShowResult": [],
+      "TeamRankAccumulateScoreType": 0,
+      "TeamRankAccumulateScoreOrder": 0,
+      "PlayerRankAccumulateScoreType": 0,
+      "PlayerRankAccumulateScoreOrder": 0,
+      "EcoRoundMoney": 0,
+      "EcoKillMoney": 0,
+      "EcoWinMoney": 0,
+      "CoinHudShow": false,
+      "SkyboxEnv": null
+    },
+    "Entity": {},
+    "Component": {}
+  },
+  "globalGraphs": [
+    {
+      "fileId": "uiolwfg2tz-mm97xqas-6hx8bco15bb",
+      "filePath": "Assets\\Script\\FCG\\GameManager.fcg",
+      "_tag": {
+        "type": "GFileRefer"
+      },
+      "fileType": "ugcscript"
+    },
+    {
+      "fileId": "yxcvj2tuqle-mm97ydzo-4wlfxl05tzu",
+      "filePath": "Assets\\Script\\FCG\\BirdPhysics.fcg",
+      "_tag": {
+        "type": "GFileRefer"
+      },
+      "fileType": "ugcscript"
+    },
+    {
+      "fileId": "t4yndfu339-mm97z06i-coues21vw68",
+      "filePath": "Assets\\Script\\FCG\\PipeSystem.fcg",
+      "_tag": {
+        "type": "GFileRefer"
+      },
+      "fileType": "ugcscript"
+    },
+    {
+      "fileId": "36m12jw5qw8-mm980x4r-731rr2opdu",
+      "filePath": "Assets\\Script\\FCG\\ServerData.fcg",
+      "_tag": {
+        "type": "GFileRefer"
+      },
+      "fileType": "ugcscript"
+    }
+  ],
+  "_entityName": "T_43_YU_WS_MODULE_GLOBAL",
+  "ReduceLogicFrame": false,
+  "CustomMatchResult": true,
+  "showSwitch": false
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

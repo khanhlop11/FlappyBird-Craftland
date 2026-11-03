@@ -1,0 +1,29 @@
+{
+  "_tag": {
+    "type": "ECAEnumSetting"
+  },
+  "_entityId": "OumMNmpQ",
+  "enumCount": 0,
+  "enumDefines": {
+    "CustomEnum19020481": {
+      "label": "Enum tùy chỉnh",
+      "key": "CustomEnum19020481",
+      "type": "Int",
+      "info": [
+        {
+          "label": "Enum tùy chỉnh_1",
+          "key": "E51066102",
+          "value": 0,
+          "type": "Int"
+        }
+      ],
+      "isCustom": true,
+      "isDirty": false
+    }
+  },
+  "enumNameMap": {
+    "Enum tùy chỉnh": "CustomEnum19020481"
+  },
+  "children": []
+}
+//"{FE:{"v":"1.15.4049104","c":{"FF":5001},"s":100}

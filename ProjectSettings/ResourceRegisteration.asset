@@ -1,0 +1,222 @@
+{
+  "_tag": {
+    "type": "ResourceRegisteration"
+  },
+  "_entityId": "1Qaa5pVT",
+  "Resource": {
+    "ui": {
+      "id": "ui",
+      "children": [
+        {
+          "refer": {
+            "fileId": "1knl7lu11nwh-mjl34tfq-yfpb581no6m",
+            "filePath": "Assets\\flappybird.ui",
+            "_tag": {
+              "type": "GFileRefer"
+            },
+            "fileType": "ui"
+          },
+          "scriptName": "FlapUI",
+          "children": [
+            {
+              "id": "wrjY4owO",
+              "scriptName": "BirdIcon"
+            },
+            {
+              "id": "cgBeUFov",
+              "scriptName": "Pipe"
+            },
+            {
+              "id": "dmpHnyGk",
+              "scriptName": "RetryButton"
+            },
+            {
+              "id": "RTN4MBef",
+              "scriptName": "Intro"
+            },
+            {
+              "id": "Tc7NEqs0",
+              "scriptName": "JumpButton"
+            }
+          ]
+        }
+      ]
+    },
+    "scene": {
+      "id": "scene",
+      "children": [
+        {
+          "refer": {
+            "fileId": "ew30utg8hd7-lw7lj2ed-m7knbltuzlg",
+            "filePath": "Assets\\Scene\\New Scene.scene",
+            "_tag": {
+              "type": "GFileRefer"
+            },
+            "fileType": "scene"
+          },
+          "scriptName": "Key",
+          "children": [
+            {
+              "id": "iaVnqbdX",
+              "scriptName": "Box"
+            }
+          ]
+        }
+      ]
+    },
+    "prefab": {
+      "id": "prefab",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "ugcscript": {
+      "id": "ugcscript",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "eca": {
+      "id": "eca",
+      "children": []
+    },
+    "texture": {
+      "id": "texture",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "effecttype": {
+      "id": "effecttype",
+      "children": []
+    },
+    "sound": {
+      "id": "sound",
+      "children": [
+        {
+          "refer": {
+            "fileId": "a4udw9ily59-mmc4v0q4-eh3synnwq5d",
+            "filePath": "Assets\\Bonk Sound Effect - Mr. Sound Effects.mp3",
+            "_tag": {
+              "type": "GFileRefer"
+            },
+            "fileType": "sound"
+          },
+          "scriptName": "BonkSound",
+          "children": []
+        },
+        {
+          "refer": {
+            "fileId": "squ6fgour2b-mmc4vb9i-rukydy7rbe",
+            "filePath": "Assets\\Quack Sound Effect (3).mp3",
+            "_tag": {
+              "type": "GFileRefer"
+            },
+            "fileType": "sound"
+          },
+          "scriptName": "QuackSound",
+          "children": []
+        }
+      ]
+    },
+    "fitem": {
+      "id": "fitem",
+      "children": []
+    },
+    "fScenePrefab": {
+      "id": "fScenePrefab",
+      "children": []
+    },
+    "clothskin": {
+      "id": "clothskin",
+      "children": []
+    },
+    "weaponskin": {
+      "id": "weaponskin",
+      "children": []
+    },
+    "vehicleskin": {
+      "id": "vehicleskin",
+      "children": []
+    },
+    "emoteskin": {
+      "id": "emoteskin",
+      "children": []
+    },
+    "csv": {
+      "id": "csv",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "internalhudtype": {
+      "id": "internalhudtype",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "textureResource": {
+      "id": "textureResource",
+      "children": []
+    },
+    "mesh": {
+      "id": "mesh",
+      "children": []
+    },
+    "material": {
+      "id": "material",
+      "children": []
+    },
+    "ac": {
+      "id": "ac",
+      "children": []
+    },
+    "particles": {
+      "id": "particles",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    },
+    "playerdata": {
+      "id": "playerdata",
+      "children": []
+    },
+    "xbt": {
+      "id": "xbt",
+      "children": []
+    },
+    "pfm": {
+      "id": "pfm",
+      "children": []
+    },
+    "skilltype": {
+      "id": "skilltype",
+      "children": [
+        {
+          "scriptName": "Key",
+          "children": []
+        }
+      ]
+    }
+  },
+  "children": []
+}
+//"{FE:{"v":"1.16.4197289","c":{"FF":5001},"s":100}

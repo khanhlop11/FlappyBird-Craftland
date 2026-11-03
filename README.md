@@ -52,7 +52,7 @@ Dự án tập xây dựng toàn bộ mô hình vật lý rơi tự do, hệ sin
 │   │       ├── InputHandler.fcg    # Xử lí sự kiện chạm/click của người chơi
 │   │       └── Replay_Button.fcg   # Xử lý nút chơi lại
 │   ├── flappybird.ui               # Giao diện UI (làm scene chính khi làm game 2d trong môi trường 3d)
-│   ├── Scene/                      # Tài nguyên màn chơi Craftland(không quan trọng)
+│   ├── Scene/                      # Tài nguyên trường cảnh 3d mặc định của Craftland(không quan trọng)
 │   └── ECA/                        # Chứa các code block tương tự fcg nhưng dùng cho các sự kiện đơn giản
 ├── screenshots/                    # Ảnh chụp gameplay thực tế
 │   ├── gameplay.jpg

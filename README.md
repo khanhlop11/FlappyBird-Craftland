@@ -46,14 +46,14 @@ Dự án tập xây dựng toàn bộ mô hình vật lý rơi tự do, hệ sin
 │   ├── Script/
 │   │   └── FCG/
 │   │       ├── BirdPhysics.fcg     # Mô phỏng vật lý rơi, nhảy và va chạm
-│   │       ├── PipeSystem.fcg      # Hệ thống ống và Object Pooling pattern
-│   │       ├── GameManager.fcg     # Quản lý vòng lặp game và cây UI Widget
+│   │       ├── PipeSystem.fcg      # Hệ thống ống và Object 
+│   │       ├── GameManager.fcg     # Quản lý game(vòng lặp game và UI Widget)
 │   │       ├── ServerData.fcg      # Xử lý Server & lưu trữ Leaderboard
-│   │       ├── InputHandler.fcg    # Bắt sự kiện chạm/click của người chơi
+│   │       ├── InputHandler.fcg    # Xử lí sự kiện chạm/click của người chơi
 │   │       └── Replay_Button.fcg   # Xử lý nút chơi lại
-│   ├── flappybird.ui               # Tệp bố cục giao diện đồ họa
-│   ├── Scene/                      # Tài nguyên màn chơi Craftland
-│   └── ECA/                        # Event-Condition-Action assets
+│   ├── flappybird.ui               # Giao diện UI (làm scene chính khi làm game 2d trong môi trường 3d)
+│   ├── Scene/                      # Tài nguyên màn chơi Craftland(không quan trọng)
+│   └── ECA/                        # Chứa các code block tương tự fcg nhưng dùng cho các sự kiện đơn giản
 ├── screenshots/                    # Ảnh chụp gameplay thực tế
 │   ├── gameplay.jpg
 │   └── gameover.jpg

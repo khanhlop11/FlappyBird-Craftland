@@ -6,6 +6,14 @@ Dự án tập trung vào việc tự xây dựng toàn bộ mô hình vật lý
 
 ---
 
+## 🎮 Hình Ảnh Trò Chơi (Gameplay & UI)
+
+| In-Game (Đang chơi) | Game Over & Bảng điểm cao |
+| :---: | :---: |
+| ![Gameplay](screenshots/gameplay.jpg) | ![Game Over](screenshots/gameover.jpg) |
+
+---
+
 ## 🚀 Các Tính Năng Kỹ Thuật Chính
 
 ### 1. Mô Phỏng Động Học & Vật Lý Cá Nhân Hóa (`BirdPhysics.fcg`)
@@ -46,6 +54,9 @@ Dự án tập trung vào việc tự xây dựng toàn bộ mô hình vật lý
 │   ├── flappybird.ui               # Tệp bố cục giao diện đồ họa
 │   ├── Scene/                      # Tài nguyên màn chơi Craftland
 │   └── ECA/                        # Event-Condition-Action assets
+├── screenshots/                    # Ảnh chụp gameplay thực tế
+│   ├── gameplay.jpg
+│   └── gameover.jpg
 ├── fcconfig.json                   # Cấu hình biên dịch ngôn ngữ FCG
 ├── main.gproj                      # Tệp cấu hình dự án Craftland Studio
 └── README.md

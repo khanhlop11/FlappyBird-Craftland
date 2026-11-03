@@ -1,20 +1,20 @@
 # Flappy Bird UGC — Custom Physics & Procedural Arcade Game
 
-Một tựa game arcade 2D/3D kinh điển được tái hiện lại trên nền tảng **Garena Craftland Studio**, sử dụng ngôn ngữ lập trình hướng đối tượng tĩnh **FCG** (Free Fire Craftland Scripting Language).
+Tựa game Flappy Bird kinh điển được tái hiện lại trên nền tảng **Garena Craftland Studio**, sử dụng ngôn ngữ lập trình hướng đối tượng tĩnh **FCG** (Free Fire Craftland Scripting Language).
 
-Dự án tập trung vào việc tự xây dựng toàn bộ mô hình vật lý rơi tự do, hệ sinh chướng ngại vật động với mẫu thiết kế **Object Pooling**, kiến trúc phân tách **Client - Server**, và hệ thống lưu trữ bảng xếp hạng trực tuyến.
+Dự án tập xây dựng toàn bộ mô hình vật lý rơi tự do, hệ sinh chướng ngại vật động với mẫu thiết kế UI, kiến trúc phân tách **Client - Server**, và hệ thống lưu trữ bảng xếp hạng trực tuyến.
 
 ---
 
-## 🎮 Hình Ảnh Trò Chơi (Gameplay & UI)
+## Hình Ảnh Trò Chơi (Gameplay & UI)
 
-| Gameplay | Game Over |
+| GamePlay | Game Over |
 | :---: | :---: |
 | ![Gameplay](screenshots/gameplay.jpg) | ![Game Over](screenshots/gameover.jpg) |
 
 ---
 
-## 🚀 Các Tính Năng Kỹ Thuật Chính
+## Các Tính Năng Kỹ Thuật Chính
 
 ### 1. Mô Phỏng Động Học & Vật Lý Cá Nhân Hóa (`BirdPhysics.fcg`)
 - **Vật lý trọng lực tự xây dựng:** Tự tính toán gia tốc trọng trường (`gravity * BirdSpeedMultiplier`) và vận tốc nhảy tức thời (`jumpForce`) độc lập trên client để đảm bảo phản hồi tức thì (Zero-latency input).
